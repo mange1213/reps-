@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#153a5b">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Weekly Sales Report</title>
+<style>
+:root{--navy:#153a5b;--blue:#1f6feb;--bg:#f3f6fa;--ink:#172433;--muted:#637386;--line:#dce4ed;--white:#fff;--green:#147d4a;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:var(--navy);color:white;padding:18px 16px 16px}header .top{max-width:1100px;margin:auto;display:flex;gap:12px;align-items:center}header .install{margin-left:auto;white-space:nowrap;border:1px solid #ffffff80;border-radius:9px;padding:9px 11px;background:#ffffff18;color:#fff;font-weight:700;cursor:pointer} .logo{width:44px;height:44px;border-radius:10px;background:#ffffff20;border:1px solid #ffffff60;display:grid;place-items:center;font-weight:800;font-size:20px;flex-shrink:0}h1{font-size:21px;margin:0}header p{margin:3px 0 0;color:#dbe8f5;font-size:13px}
+main{max-width:1100px;margin:18px auto;padding:0 12px 40px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:14px}.tab{border:1px solid var(--line);background:white;padding:10px 14px;border-radius:10px;white-space:nowrap;font-weight:650;color:var(--navy)}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #12243a08}.panel h2{font-size:18px;margin:0 0 12px}.hint{color:var(--muted);font-size:13px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:700;color:#34465a}input,textarea,select{font:inherit;width:100%;min-width:0;border:1px solid #c8d4e1;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink)}textarea{min-height:90px;resize:vertical}input:focus,textarea:focus,select:focus{outline:2px solid #8db9ff;border-color:var(--blue)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:9px;padding:10px 14px;background:var(--navy);color:white;font-weight:700;font-size:14px;cursor:pointer}.btn.secondary{background:#e9eff6;color:var(--navy)}.btn.danger{background:#fff0ef;color:var(--red)}.btn.small{padding:7px 10px}.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{background:white;border:1px solid var(--line);border-radius:12px;padding:12px}.stat strong{display:block;font-size:24px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}.entries{display:grid;gap:10px}.entry{border:1px solid var(--line);border-radius:12px;padding:12px}.entrytop{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}.entry h3{font-size:16px;margin:0 0 3px}.meta{font-size:12px;color:var(--muted)}.detail{font-size:13px;margin-top:8px;white-space:pre-wrap}.pill{display:inline-block;font-size:11px;font-weight:750;padding:4px 7px;border-radius:999px;background:#e8eef6;color:#334155}.pill.open{background:#fff1d6;color:#805500}.pill.progress{background:#e5efff;color:#174ea6}.pill.waiting{background:#f4e8ff;color:#7137a8}.pill.completed{background:#dcfce7;color:#166534}.empty{text-align:center;color:var(--muted);padding:28px 10px;border:1px dashed var(--line);border-radius:12px}.hidden{display:none!important}.notice{font-size:12px;color:var(--muted);margin-top:12px}.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#15283b;color:white;padding:10px 15px;border-radius:10px;box-shadow:0 4px 20px #0002;z-index:5;max-width:90%;text-align:center}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.toolbar input,.toolbar select{max-width:230px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+@media(min-width:900px){main{padding-left:22px;padding-right:22px}.panel{padding:20px}.grid{column-gap:18px;row-gap:14px}.tabs{position:sticky;top:0;z-index:4;padding:8px 0;background:var(--bg)}}
+@media(min-width:621px) and (max-width:899px){main{padding-left:16px;padding-right:16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.panel{padding:15px}.toolbar{align-items:end}.toolbar .field{flex:1 1 210px}.toolbar input,.toolbar select{max-width:none}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.statrow{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stat{padding:10px 8px}.stat strong{font-size:21px}.stat span{font-size:11px}.panel{padding:13px}header{padding:15px 12px}header .top{align-items:flex-start;flex-wrap:wrap}header .top>div:nth-child(2){flex:1;min-width:0}header h1{font-size:18px;line-height:1.25}header .install{margin-left:56px;margin-top:2px;white-space:normal}.tabs{gap:6px}.tab{padding:10px 11px}.toolbar{display:grid;grid-template-columns:1fr 1fr}.toolbar .field{min-width:0}.toolbar input,.toolbar select{max-width:none}.actions .btn{max-width:100%}input,textarea,select,.btn,.tab{min-height:42px}textarea{min-height:100px}.entrytop{gap:10px}.entrytop>div{min-width:0}.pill{flex-shrink:0}}
+@media(max-width:380px){.statrow{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}header .install{margin-left:0}.logo{width:40px;height:40px}}
+@media(hover:none){.btn,.tab,.install{touch-action:manipulation}}
+
+/* Responsive header and navigation fixes */
+header .top{flex-wrap:wrap;align-items:flex-start}
+header .top>div:not(.logo){min-width:0;flex:1 1 180px}
+header h1{overflow-wrap:anywhere}
+header .install{flex:0 1 auto;max-width:100%;white-space:normal;margin-left:auto}
+.tabs{flex-wrap:wrap;overflow:visible}
+.tab{flex:1 1 auto;white-space:normal;min-width:0}
+@media(max-width:640px){header{padding:14px 12px}header .top{gap:10px}header .logo{width:42px;height:42px}header .top>div:not(.logo){flex:1 1 calc(100% - 60px)}header .install{flex:1 1 100%;margin:0;width:100%;text-align:center}main{margin:12px auto;padding:0 10px 28px}.panel{padding:13px}.tabs{display:grid;grid-template-columns:1fr;gap:7px}.tab{width:100%;text-align:left}.grid{grid-template-columns:minmax(0,1fr)}}
+@media(min-width:641px) and (max-width:900px){header .install{margin-left:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{body{background:white}.tabs,.actions,.toolbar,header{display:none!important}.panel{box-shadow:none;border:0;padding:0}.entry{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div class="top"><div class="logo" id="logoMark">SR</div><div><h1 id="headerTitle">Sales Rep — Weekly Reports</h1><p>Capture activities · track follow-ups · export editable reports</p></div><button class="install" id="installAppBtn" type="button">Install app</button></div></header>
+<main>
+<div class="tabs" role="tablist">
+<button class="tab active" data-tab="capture">＋ Add activity</button>
+<button class="tab" data-tab="weekly">Weekly / Monthly reports</button>
+<button class="tab" data-tab="settings">Rep settings</button>
+</div>
+
+<section id="capture" class="view">
+<div class="panel"><h2 id="formHeading">Record a sales activity</h2><p class="hint">Enter one client activity at a time. Save entries as you go, then export the week's report.</p>
+<form id="activityForm">
+<input id="recordId" type="hidden">
+<div class="grid">
+<div class="field"><label for="rep">Representative name *</label><input id="rep" required placeholder="e.g. Thabo Mokoena"></div>
+<div class="field"><label for="date">Activity date *</label><input id="date" type="date" required></div>
+<div class="field"><label for="client">Client name *</label><input id="client" required placeholder="Client / company name"></div>
+<div class="field"><label for="site">Site</label><input id="site" placeholder="Site, project or branch"></div>
+<div class="field"><label for="order">Invoice or order number</label><input id="order" placeholder="If applicable"></div>
+<div class="field"><label for="quote">Quote number</label><input id="quote" placeholder="If applicable"></div>
+<div class="field full"><label for="comments">Comments / work completed *</label><textarea id="comments" required placeholder="Who did you meet? What was discussed or completed?"></textarea></div>
+<div class="field full"><label for="nextAction">Next action required</label><textarea id="nextAction" placeholder="What needs to happen next, and who must do it?"></textarea></div>
+<div class="field"><label for="due">Follow-up due date</label><input id="due" type="date"></div>
+<div class="field"><label for="status">Status</label><select id="status"><option>Open</option><option>In Progress</option><option>Waiting for Client</option><option>Completed</option></select></div>
+</div>
+<div class="actions"><button class="btn" type="submit" id="saveBtn">Save activity</button><button class="btn secondary" type="button" id="clearBtn">Clear form</button></div>
+<p class="notice">* Required fields. Entries are saved in this browser on this phone. They are not automatically sent to management or synced to other devices.</p>
+</form></div>
+</section>
+
+<section id="weekly" class="view hidden">
+<div class="statrow"><div class="stat"><strong id="statCount">0</strong><span>Activities this week</span></div><div class="stat"><strong id="statOpen">0</strong><span>Not completed</span></div><div class="stat"><strong id="statOverdue">0</strong><span>Overdue follow-ups</span></div></div>
+<div class="panel"><h2>Weekly report and follow-ups</h2><p class="hint">Choose a week and optionally filter by representative or status. Export the selected week as an Excel workbook.</p>
+<div class="toolbar"><div class="field"><label for="weekOf">Week containing</label><input id="weekOf" type="date"></div><div class="field"><label for="monthOf">Month to export</label><input id="monthOf" type="month"></div><div class="field"><label for="filterRep">Representative</label><select id="filterRep"><option value="">All representatives</option></select></div><div class="field"><label for="filterStatus">Status</label><select id="filterStatus"><option value="">All statuses</option><option>Open</option><option>In Progress</option><option>Waiting for Client</option><option>Completed</option></select></div></div>
+<div class="actions" style="margin-top:0;margin-bottom:14px"><button class="btn" id="exportExcel">Export weekly report to Excel (.xlsx)</button><button class="btn" id="exportMonthlyExcel">Export monthly report to Excel (.xlsx)</button><button class="btn secondary" id="exportCsv">Export spreadsheet (CSV backup)</button><button class="btn secondary" id="backup">Backup all data (JSON)</button><button class="btn secondary" id="restoreBtn">Restore backup</button><input class="hidden" id="restoreFile" type="file" accept=".json,application/json"></div>
+<div id="entryList" class="entries"></div>
+<p class="notice">Weekly export creates an .xlsx workbook with a weekly summary and activity details. Monthly export includes a month summary, a week-by-week breakdown, and all activity details for the selected month. Choose a representative to export their report, or leave All representatives selected. CSV is available as a simple spreadsheet fallback. Keep regular backups if these records are important.</p>
+</div>
+</section>
+
+<section id="settings" class="view hidden">
+<div class="panel"><h2>Sales representative settings</h2><p class="hint">Use the representative’s name in the app header and exported reports.</p>
+<div class="grid"><div class="field full"><label for="defaultRep">Sales representative name</label><input id="defaultRep" placeholder="Enter this phone user’s full name"><span class="notice">Set this once on each rep’s phone. Their name will automatically fill in new activities and appear at the top of weekly and monthly exports.</span></div></div>
+<div class="actions"><button class="btn" id="saveSettings">Save rep settings</button></div></div>
+<div class="panel"><h2>Install app / GitHub setup</h2><p>For the install button to work, publish the complete app package to GitHub Pages and open its HTTPS website in Chrome. Opening the HTML file directly will not offer installation.</p><div class="actions"><button class="btn" id="installAppSettings" type="button">Install app</button><button class="btn secondary" id="downloadAppFile" type="button">Download HTML copy (not installable)</button></div><p class="hint">For GitHub Pages, upload every file from the complete ZIP into the repository root: index.html, manifest.json, sw.js and the icons folder. The HTML-only download is not the complete installable package. If the in-page install prompt is unavailable, use Chrome’s ⋮ menu and choose Install app or Add to Home screen.</p></div>
+<div class="panel"><h2>Data and privacy</h2><p>Data is stored locally in this browser on this device. Clearing browser data, uninstalling the browser, or losing the phone may erase it. Other reps and management cannot see these entries unless you export and share them. This first version does not have logins, cloud sync, or central management access.</p>
+<div class="actions"><button class="btn secondary" id="exportAllExcel">Export all saved activities to Excel (.xlsx)</button><button class="btn danger" id="deleteAll">Delete all saved activities</button></div></div>
+</section>
+<div class="footer">Sales Representative Reports · Local-first app</div>
+</main><div id="toast" class="toast hidden" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const DB='weeklySalesActivities_v1', CFG='weeklySalesSettings_v1';
+let records=[],settings={defaultRep:'',company:'',shortName:''};
+const fields=['rep','date','client','site','order','quote','comments','nextAction','due','status'];
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+function load(){try{records=JSON.parse(localStorage.getItem(DB)||'[]')}catch(e){records=[]}try{settings={...settings,...JSON.parse(localStorage.getItem(CFG)||'{}')}}catch(e){}}
+function persist(){localStorage.setItem(DB,JSON.stringify(records));}
+function configSave(){localStorage.setItem(CFG,JSON.stringify(settings));renderBrand();toast('Rep settings saved.')}
+function renderBrand(){const name=settings.defaultRep||'Sales Representative';$('headerTitle').textContent=name+' — Weekly Reports';$('logoMark').textContent=name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'SR';$('defaultRep').value=settings.defaultRep||''}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2600)}
+function showTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='weekly')renderWeekly();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function clearForm(){ $('activityForm').reset();$('recordId').value='';$('rep').value=settings.defaultRep||'';$('date').value=today();$('status').value='Open';$('formHeading').textContent='Record a sales activity';$('saveBtn').textContent='Save activity';}
+function formRecord(){const o={};fields.forEach(f=>o[f]=$(f).value.trim());return o}
+$('activityForm').addEventListener('submit',e=>{e.preventDefault();const data=formRecord(),id=$('recordId').value;if(id){const i=records.findIndex(r=>r.id===id);if(i>=0)records[i]={...records[i],...data,updatedAt:new Date().toISOString()}}else records.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),...data,createdAt:new Date().toISOString()});persist();clearForm();refreshRepOptions();toast('Activity saved on this device.');});
+$('clearBtn').addEventListener('click',clearForm);
+function mondayOf(s){const d=new Date((s||today())+'T12:00:00');const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function weekRange(){const start=mondayOf($('weekOf').value||today()),d=new Date(start+'T12:00:00');d.setDate(d.getDate()+6);return {start,end:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}}
+function refreshRepOptions(){const sel=$('filterRep'),old=sel.value;const names=[...new Set(records.map(r=>r.rep).filter(Boolean))].sort();sel.innerHTML='<option value="">All representatives</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(old))sel.value=old}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function selected(){const {start,end}=weekRange();return records.filter(r=>r.date>=start&&r.date<=end&&(!$('filterRep').value||r.rep===$('filterRep').value)&&(!$('filterStatus').value||r.status===$('filterStatus').value)).sort((a,b)=>a.date.localeCompare(b.date)||a.client.localeCompare(b.client))}
+function renderWeekly(){refreshRepOptions();const arr=selected(),now=today();$('statCount').textContent=arr.length;$('statOpen').textContent=arr.filter(r=>r.status!=='Completed').length;$('statOverdue').textContent=arr.filter(r=>r.due&&r.due<now&&r.status!=='Completed').length;const list=$('entryList');if(!arr.length){list.innerHTML='<div class="empty">No activities found for this week and filter. Add an activity or choose another week.</div>';return}list.innerHTML=arr.map(r=>`<article class="entry"><div class="entrytop"><div><h3>${esc(r.client||'Unnamed client')}</h3><div class="meta">${esc(r.date)} · ${esc(r.rep)} · Site: ${esc(r.site||'—')}</div></div><span class="pill ${r.status==='Completed'?'completed':r.status==='In Progress'?'progress':r.status==='Waiting for Client'?'waiting':'open'}">${esc(r.status||'Open')}</span></div><div class="detail"><b>Invoice/order:</b> ${esc(r.order||'—')} &nbsp; <b>Quote:</b> ${esc(r.quote||'—')}<br><b>Comments:</b> ${esc(r.comments||'—')}<br><b>Next action:</b> ${esc(r.nextAction||'—')}<br><b>Follow-up due:</b> ${esc(r.due||'—')}${r.due&&r.due<now&&r.status!=='Completed'?' · OVERDUE':''}</div><div class="actions"><button class="btn secondary small" data-edit="${esc(r.id)}">Edit</button><button class="btn danger small" data-delete="${esc(r.id)}">Delete</button></div></article>`).join('');list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editRecord(b.dataset.edit));list.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteRecord(b.dataset.delete))}
+function editRecord(id){const r=records.find(x=>x.id===id);if(!r)return;fields.forEach(f=>$(f).value=r[f]||'');$('recordId').value=id;$('formHeading').textContent='Edit sales activity';$('saveBtn').textContent='Save changes';showTab('capture')}
+function deleteRecord(id){if(!confirm('Delete this activity? This cannot be undone unless you have a backup.'))return;records=records.filter(r=>r.id!==id);persist();renderWeekly();toast('Activity deleted.')}
+['weekOf','filterRep','filterStatus'].forEach(id=>$(id).addEventListener('change',renderWeekly));
+function dateLabel(s){return s||'—'}
+function excelSafe(v){return String(v??'')}
+function exportExcel(arr,title,periodLabel){
+  if(!arr.length&&!confirm('No activities in this selection. Export an empty report anyway?'))return;
+  if(!window.XLSX){alert('The Excel export library could not load. Please connect to the internet and reopen the app, or use Export spreadsheet (CSV backup).');return;}
+  const {start,end}=weekRange();
+  const rep=($('filterRep')&&$('filterRep').value)||settings.defaultRep||'All representatives';
+  const reportOwner=rep;
+  const headings=['Date','Representative','Client','Site','Invoice / Order No.','Quote No.','Comments','Next Action','Follow-up Due','Status'];
+  const keys=['date','rep','client','site','order','quote','comments','nextAction','due','status'];
+  const reportRows=[
+    [reportOwner],
+    [title],
+    [`Period: ${periodLabel||`${start} to ${end}`}  |  Representative: ${rep}  |  Generated: ${today()}`],
+    [],
+    headings,
+    ...arr.map(r=>keys.map(k=>excelSafe(r[k])))
+  ];
+  const wb=XLSX.utils.book_new();
+  const report=XLSX.utils.aoa_to_sheet(reportRows);
+  report['!merges']=[{s:{r:0,c:0},e:{r:0,c:9}},{s:{r:1,c:0},e:{r:1,c:9}},{s:{r:2,c:0},e:{r:2,c:9}}];
+  report['!cols']=[{wch:13},{wch:18},{wch:24},{wch:20},{wch:20},{wch:16},{wch:34},{wch:30},{wch:16},{wch:19}];
+  report['!rows']=[{hpt:28},{hpt:24},{hpt:22},{hpt:8},{hpt:32}];
+  report['!autofilter']={ref:`A5:J${Math.max(5,reportRows.length)}`};
+  report['!freeze']={xSplit:0,ySplit:5,topLeftCell:'A6',activePane:'bottomLeft',state:'frozen'};
+  const navy='17365D', blue='D9EAF7', white='FFFFFF', grey='666666';
+  for(let c=0;c<10;c++){
+    const a=XLSX.utils.encode_cell({r:0,c}); if(report[a])report[a].s={font:{name:'Aptos Display',sz:18,bold:true,color:{rgb:navy}},alignment:{vertical:'center'}};
+    const b=XLSX.utils.encode_cell({r:1,c}); if(report[b])report[b].s={font:{name:'Aptos',sz:13,bold:true,color:{rgb:navy}},alignment:{vertical:'center'}};
+    const d=XLSX.utils.encode_cell({r:2,c}); if(report[d])report[d].s={font:{italic:true,sz:10,color:{rgb:grey}},alignment:{vertical:'center'}};
+    const h=XLSX.utils.encode_cell({r:4,c}); if(report[h])report[h].s={fill:{patternType:'solid',fgColor:{rgb:navy}},font:{bold:true,color:{rgb:white}},alignment:{horizontal:'center',vertical:'center',wrapText:true},border:{bottom:{style:'thin',color:{rgb:'FFFFFF'}}}};
+  }
+  for(let r=5;r<reportRows.length;r++)for(let c=0;c<10;c++){
+    const cell=report[XLSX.utils.encode_cell({r,c})]; if(cell)cell.s={font:{name:'Aptos',sz:10,color:{rgb:'222222'}},alignment:{vertical:'top',wrapText:true},border:{bottom:{style:'thin',color:{rgb:'D9E1F2'}}},fill:r%2===1?{patternType:'solid',fgColor:{rgb:'F5F8FC'}}:{patternType:'solid',fgColor:{rgb:white}}};
+  }
+  // Keep a concise management summary on a second tab.
+  const summaryRows=[['Representative',reportOwner],['Report',title],['Period',periodLabel||`${start} to ${end}`],['Representative',rep],['Generated',today()],[],['Metric','Count'],['Activities',arr.length],['Open / not completed',arr.filter(r=>r.status!=='Completed'&&r.status!=='Cancelled').length],['Overdue follow-ups',arr.filter(r=>r.due&&r.due<today()&&r.status!=='Completed'&&r.status!=='Cancelled').length],['Completed',arr.filter(r=>r.status==='Completed').length],['Quotes recorded',arr.filter(r=>r.quote).length],['Orders / invoices recorded',arr.filter(r=>r.order).length]];
+  const sum=XLSX.utils.aoa_to_sheet(summaryRows);sum['!cols']=[{wch:30},{wch:44}];
+  XLSX.utils.book_append_sheet(wb,report,'Weekly Report');
+  XLSX.utils.book_append_sheet(wb,sum,'Summary');
+  const file=title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.xlsx';
+  XLSX.writeFile(wb,file);toast('Formatted Excel report downloaded.');
+}
+$('exportExcel').onclick=()=>{const {start,end}=weekRange();exportExcel(selected(),`Weekly Sales Report (${start} to ${end})`,`${start} to ${end}`)};
+function exportMonthlyExcel(){
+  const month=$('monthOf').value||today().slice(0,7);
+  const [year,mon]=month.split('-').map(Number);
+  const start=`${year}-${String(mon).padStart(2,'0')}-01`;
+  const lastDay=new Date(year,mon,0).getDate();
+  const end=`${year}-${String(mon).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
+  const rep=$('filterRep').value;
+  const status=$('filterStatus').value;
+  const arr=records.filter(r=>r.date>=start&&r.date<=end&&(!rep||r.rep===rep)&&(!status||r.status===status)).sort((a,b)=>a.date.localeCompare(b.date)||a.client.localeCompare(b.client));
+  if(!arr.length&&!confirm('No activities found for this month and filter. Export an empty report anyway?'))return;
+  if(!window.XLSX){alert('The Excel export library could not load. Please connect to the internet and reopen the app.');return;}
+  const reportOwner=rep||settings.defaultRep||'All representatives';
+  const title=`Monthly Sales Report ${month}${reportOwner!=='All representatives'?' - '+reportOwner:''}`;
+  const summary=[['Representative',reportOwner],['Report',title],['Month',month],['Representative',rep||'All representatives'],['Generated',today()],[],['Metric','Count'],['Activities',arr.length],['Open / not completed',arr.filter(r=>r.status!=='Completed').length],['Overdue follow-ups',arr.filter(r=>r.due&&r.due<today()&&r.status!=='Completed').length],['Completed',arr.filter(r=>r.status==='Completed').length],['Quotes recorded',arr.filter(r=>r.quote).length],['Orders / invoices recorded',arr.filter(r=>r.order).length]];
+  const weekMap=new Map();
+  arr.forEach(r=>{const w=mondayOf(r.date);if(!weekMap.has(w))weekMap.set(w,[]);weekMap.get(w).push(r)});
+  const weekRows=[['Week commencing','Week ending','Activities','Open / not completed','Overdue follow-ups','Completed','Quotes','Orders / invoices']];
+  [...weekMap.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([w,items])=>{const d=new Date(w+'T12:00:00');d.setDate(d.getDate()+6);const we=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;weekRows.push([w,we,items.length,items.filter(r=>r.status!=='Completed').length,items.filter(r=>r.due&&r.due<today()&&r.status!=='Completed').length,items.filter(r=>r.status==='Completed').length,items.filter(r=>r.quote).length,items.filter(r=>r.order).length])});
+  const headings=['Date','Representative','Client Name','Site / Location','Invoice / Order No.','Quote No.','Comments / Outcome','Next Action','Follow-up Due Date','Status'];
+  const keys=['date','rep','client','site','order','quote','comments','nextAction','due','status'];
+  const detail=[headings,...arr.map(r=>keys.map(k=>excelSafe(r[k])))];
+  const wb=XLSX.utils.book_new();
+  // Word-style monthly cover/report sheet, matching the weekly report layout.
+  const monthLabel=new Date(year,mon-1,1).toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  const reportRows=[
+    [reportOwner],
+    [title],
+    [`Period: ${start} to ${end}  |  Representative: ${reportOwner}  |  Generated: ${today()}`],
+    [`Activities: ${arr.length}  |  Completed: ${arr.filter(r=>r.status==='Completed').length}  |  Open: ${arr.filter(r=>r.status!=='Completed'&&r.status!=='Cancelled').length}  |  Overdue follow-ups: ${arr.filter(r=>r.due&&r.due<today()&&r.status!=='Completed'&&r.status!=='Cancelled').length}`],
+    [],
+    headings,
+    ...arr.map(r=>keys.map(k=>excelSafe(r[k])))
+  ];
+  const monthlyReport=XLSX.utils.aoa_to_sheet(reportRows);
+  monthlyReport['!merges']=[{s:{r:0,c:0},e:{r:0,c:9}},{s:{r:1,c:0},e:{r:1,c:9}},{s:{r:2,c:0},e:{r:2,c:9}},{s:{r:3,c:0},e:{r:3,c:9}}];
+  monthlyReport['!cols']=[{wch:14},{wch:20},{wch:28},{wch:24},{wch:22},{wch:18},{wch:42},{wch:38},{wch:18},{wch:20}];
+  monthlyReport['!rows']=[{hpt:30},{hpt:25},{hpt:22},{hpt:22},{hpt:8},{hpt:32}];
+  monthlyReport['!autofilter']={ref:`A6:J${Math.max(6,reportRows.length)}`};
+  monthlyReport['!freeze']={xSplit:0,ySplit:6,topLeftCell:'A7',activePane:'bottomLeft',state:'frozen'};
+  const navy='17365D', white='FFFFFF', grey='666666';
+  for(let c=0;c<10;c++){
+    const a=XLSX.utils.encode_cell({r:0,c}); if(monthlyReport[a])monthlyReport[a].s={font:{name:'Aptos Display',sz:18,bold:true,color:{rgb:navy}},alignment:{vertical:'center'}};
+    const b=XLSX.utils.encode_cell({r:1,c}); if(monthlyReport[b])monthlyReport[b].s={font:{name:'Aptos',sz:13,bold:true,color:{rgb:navy}},alignment:{vertical:'center'}};
+    for(const rr of [2,3]){const x=XLSX.utils.encode_cell({r:rr,c});if(monthlyReport[x])monthlyReport[x].s={font:{name:'Aptos',sz:10,italic:rr===2,color:{rgb:grey}},alignment:{vertical:'center',wrapText:true}};}
+    const h=XLSX.utils.encode_cell({r:5,c});if(monthlyReport[h])monthlyReport[h].s={fill:{patternType:'solid',fgColor:{rgb:navy}},font:{bold:true,color:{rgb:white}},alignment:{horizontal:'center',vertical:'center',wrapText:true},border:{bottom:{style:'thin',color:{rgb:white}}}};
+  }
+  for(let r=6;r<reportRows.length;r++)for(let c=0;c<10;c++){
+    const cell=monthlyReport[XLSX.utils.encode_cell({r,c})];if(cell)cell.s={font:{name:'Aptos',sz:10,color:{rgb:'222222'}},alignment:{vertical:'top',wrapText:true},border:{bottom:{style:'thin',color:{rgb:'D9E1F2'}}},fill:r%2===0?{patternType:'solid',fgColor:{rgb:'F5F8FC'}}:{patternType:'solid',fgColor:{rgb:white}}};
+  }
+  const sum=XLSX.utils.aoa_to_sheet(summary);sum['!cols']=[{wch:30},{wch:42}];
+  const weeks=XLSX.utils.aoa_to_sheet(weekRows);weeks['!cols']=[{wch:18},{wch:18},{wch:14},{wch:22},{wch:22},{wch:14},{wch:14},{wch:22}];weeks['!autofilter']={ref:`A1:H${Math.max(1,weekRows.length)}`};
+  const activities=XLSX.utils.aoa_to_sheet(detail);activities['!cols']=[{wch:14},{wch:20},{wch:28},{wch:24},{wch:22},{wch:18},{wch:42},{wch:38},{wch:18},{wch:20}];activities['!autofilter']={ref:`A1:J${Math.max(1,detail.length)}`};activities['!freeze']={xSplit:0,ySplit:1,topLeftCell:'A2',activePane:'bottomLeft',state:'frozen'};
+  XLSX.utils.book_append_sheet(wb,monthlyReport,'Monthly Report');XLSX.utils.book_append_sheet(wb,sum,'Monthly Summary');XLSX.utils.book_append_sheet(wb,weeks,'Weekly Breakdown');XLSX.utils.book_append_sheet(wb,activities,'All Activities');
+  const safe=title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');XLSX.writeFile(wb,safe+'.xlsx');toast('Monthly Excel report downloaded.');
+}
+$('exportMonthlyExcel').onclick=exportMonthlyExcel;
+$('exportAllExcel').onclick=()=>exportExcel([...records].sort((a,b)=>a.date.localeCompare(b.date)),'All Sales Activities','All saved dates');
+$('downloadAppFile').onclick=()=>{const source='<!DOCTYPE html>\n'+document.documentElement.outerHTML;const blob=new Blob([source],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='weekly-sales-report-app.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('App HTML file downloaded. Upload weekly-sales-report-app.html to GitHub.');};
+$('exportCsv').onclick=()=>{const arr=selected(),heads=['Date','Representative','Client name','Site','Invoice or order number','Quote number','Comments','Next action','Follow-up due date','Status'];const keys=fields;const csv=[heads,...arr.map(r=>keys.map(k=>r[k]||''))].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');download('weekly-sales-report.csv','\ufeff'+csv,'text/csv;charset=utf-8');toast('CSV spreadsheet downloaded.')};
+$('backup').onclick=()=>download('weekly-sales-backup-'+today()+'.json',JSON.stringify({version:1,settings,records},null,2),'application/json');
+$('restoreBtn').onclick=()=>$('restoreFile').click();
+$('restoreFile').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.records))throw Error('Invalid backup');if(!confirm('Restore backup? This replaces all activities currently saved on this device.'))return;records=data.records;settings={...settings,...(data.settings||{})};persist();localStorage.setItem(CFG,JSON.stringify(settings));renderBrand();refreshRepOptions();renderWeekly();toast('Backup restored.')}catch(err){alert('Could not restore this file. Please choose a valid backup created by this app.')}finally{e.target.value=''}};
+$('saveSettings').onclick=()=>{settings.defaultRep=$('defaultRep').value.trim();configSave();if(!$('recordId').value)$('rep').value=settings.defaultRep;toast(settings.defaultRep?'Saved. New activities will use '+settings.defaultRep+'.':'Rep settings saved.');};
+$('deleteAll').onclick=()=>{if(confirm('Permanently delete all saved activities from this browser? Export a backup first if needed.')){records=[];persist();renderWeekly();toast('All activities deleted.')}};
+let installPromptEvent=null;
+const installBtn=$('installAppBtn'), installSettings=$('installAppSettings'), downloadBtn=$('downloadAppFile');
+function isRunningInstalled(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
+function hideInstallButtons(){if(installBtn)installBtn.classList.add('hidden');if(installSettings)installSettings.classList.add('hidden');}
+function showInstallButtons(){if(installBtn){installBtn.textContent='Install app';installBtn.classList.remove('hidden');}if(installSettings){installSettings.textContent='Install app';installSettings.classList.remove('hidden');}}
+function installHelp(){toast('Open this website in the full Chrome app, then tap ⋮ → Install app or Add to Home screen. If missing, check that GitHub Pages has published the complete ZIP contents.');}
+function installClick(){if(isRunningInstalled()){hideInstallButtons();toast('This app is already running in its installed window.');return;}if(installPromptEvent){const promptEvent=installPromptEvent;installPromptEvent=null;promptEvent.prompt();promptEvent.userChoice.then(choice=>{if(choice&&choice.outcome==='accepted'){toast('Installation accepted. Follow the Android confirmation steps to finish.');}else{showInstallButtons();}}).catch(()=>showInstallButtons());}else{installHelp();}}
+if(isRunningInstalled()){hideInstallButtons();}else{showInstallButtons();}
+if(installBtn)installBtn.onclick=installClick;if(installSettings)installSettings.onclick=installClick;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPromptEvent=e;if(!isRunningInstalled())showInstallButtons();});
+window.addEventListener('appinstalled',()=>{installPromptEvent=null;if(isRunningInstalled())hideInstallButtons();toast('Sales reporting app installed.');});
+if(downloadBtn)downloadBtn.onclick=()=>{const source='<!DOCTYPE html>\n'+document.documentElement.outerHTML;const blob=new Blob([source],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='weekly-sales-report-app.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);downloadBtn.classList.add('hidden');toast('App HTML downloaded. Use the full ZIP for GitHub installation.');};
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+$('weekOf').value=today();$('monthOf').value=today().slice(0,7);load();renderBrand();clearForm();refreshRepOptions();renderWeekly();
+</script>
+</body></html>
