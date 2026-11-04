@@ -1,25 +1,23 @@
-# Sales Representative Reports — Installation repair v5
+# Sales Representative Reports — Install-ready package v6
 
-Configured for the GitHub Pages project: https://mange1213.github.io/reps/
+Target GitHub Pages site: https://mange1213.github.io/reps/
+Repository: https://github.com/mange1213/reps
 
-## Upload the complete app
-1. Extract this ZIP on your phone or computer.
-2. Open https://github.com/mange1213/reps and upload/replace the extracted files at the repository root. Keep the `icons` folder and both PNG files. Do not upload only `index.html`.
-3. In GitHub, open **Settings → Pages** and verify the branch/folder being published. Wait for the deployment to finish.
-4. Check that these URLs load (none should show a 404):
-   - https://mange1213.github.io/reps/manifest.json
-   - https://mange1213.github.io/reps/sw.js
-   - https://mange1213.github.io/reps/icons/icon-192.png
-   - https://mange1213.github.io/reps/icons/icon-512.png
-5. Open https://mange1213.github.io/reps/ in the full Google Chrome app, not a preview or in-app browser. Tap Chrome **⋮ → Install app** or **Add to Home screen**.
+## Publish the complete package
+1. Extract this ZIP.
+2. In the repository, replace the existing root `index.html`, `manifest.json`, and `sw.js`; upload/replace the complete `icons/` folder too.
+3. Keep GitHub Pages configured to publish the repository root (or change the paths in the manifest if you publish from another folder).
+4. Wait for the Pages deployment to finish.
+5. Verify these URLs load without a 404: `/reps/manifest.json`, `/reps/sw.js`, `/reps/icons/icon-192.png`, and `/reps/icons/icon-512.png` on `https://mange1213.github.io`.
+6. Open `https://mange1213.github.io/reps/` in the full Google Chrome app (not a Custom Tab, in-app browser, or downloaded HTML file). Open Chrome's ⋮ menu and choose **Install app** or **Add to Home screen**.
 
-## What this repair changes
-- Install buttons stay visible in a normal browser, even if an old version incorrectly saved an “installed” flag.
-- The install button invokes Chrome's install prompt when Chrome provides one; otherwise it explains how to install from Chrome's menu.
-- The service-worker cache has been versioned to v5 so the new files replace the previous cached shell.
-- The manifest uses `/reps/` as the app ID, start URL and scope.
+## Included
+- `index.html`: sales activity app with representative settings, weekly/monthly formatted Excel exports, CSV export and JSON backup/restore.
+- `manifest.json`: PWA metadata and 192/512 standard and maskable icons.
+- `sw.js`: offline app-shell cache, versioned `v6` to replace old cached releases.
+- `icons/`: app icons.
 
-## Important limitation
-A ZIP cannot publish itself to GitHub or force Android/Chrome to install an app. The website must be published over HTTPS, and Chrome decides whether to show installation. If Chrome's menu has no install option after deployment, verify the four URLs above and make sure you opened the correct URL in the full Chrome app.
+## Important
+The ZIP cannot publish itself to GitHub or force Chrome to install the app. The files must be uploaded to the repository and served over HTTPS. Chrome controls whether its install option is available. If the menu still has no install option, confirm the four resource URLs above and that the exact `/reps/` site is being opened in full Chrome.
 
-Sales activities are stored locally in that browser on that device. Export Excel/CSV and JSON backups regularly. This version does not provide logins or cloud sync.
+Activity data is stored locally in the browser on each device. Export backups regularly; this version does not provide cloud sync or shared logins.
