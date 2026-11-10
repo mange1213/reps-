@@ -24,8 +24,9 @@ installation/distribution, or send a screenshot of the exact message so the proj
 APP FEATURES
 - Representative name saved on that device
 - Weekly activity reporting
-- Date, client, site, invoice/order number, quote number, comments, next action,
+- Date, client, site, compulsory invoice/order number, quote number, comments, next action,
   follow-up due date and status
+- Saved Reports search by invoice/order number (full or partial number)
 - Weekly and monthly Excel exports
 - CSV export and JSON backup/restore
 - App HTML download for GitHub
@@ -39,3 +40,6 @@ IMPORTANT
 
 LATEST UPDATE — MANAGE REPRESENTATIVE NAMES
 Open Rep settings, then Manage representative names. Choose Remove name beside a representative and confirm. This removes the name from the active representative list and clears it as the phone default if it was selected. Previously saved activities and reports are NOT deleted. If the same name is entered and saved again later, it is added back to the active list.
+
+LATEST UPDATE — REQUIRED INVOICE / ORDER NUMBER AND SEARCH
+The invoice or order number is now compulsory when saving or editing an activity. In Saved reports, use the dedicated Search by invoice / order number field to find records by entering all or part of the number. Existing older records are retained; records created before this update may still have a blank number until edited.
