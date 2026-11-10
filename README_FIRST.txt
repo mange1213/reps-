@@ -35,3 +35,7 @@ IMPORTANT
 - Excel export needs internet access because its spreadsheet library loads from jsDelivr.
 - The app project has been packaged and its ZIP contents checked, but it has NOT been built
   or tested on your particular computer/device. Do not treat it as a verified APK yet.
+
+
+LATEST UPDATE — MANAGE REPRESENTATIVE NAMES
+Open Rep settings, then Manage representative names. Choose Remove name beside a representative and confirm. This removes the name from the active representative list and clears it as the phone default if it was selected. Previously saved activities and reports are NOT deleted. If the same name is entered and saved again later, it is added back to the active list.
